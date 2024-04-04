@@ -25,6 +25,9 @@ def download_video_mp4(video_url: str, mp4_downloads_path: str):
   youtube_object = YouTube(video_url)
   youtube_object = youtube_object.streams.get_highest_resolution()
   title_of_video = youtube_object.title
+
+  title_of_video = title_of_video.replace(' ', '-').replace(':', '-')
+
   try:
     youtube_object.download(output_path=mp4_downloads_path)
   except:
