@@ -1,0 +1,6 @@
+youtube-transcript-api
+pytube
+moviepy
+llama-index
+python-dotenv
+llama_hub

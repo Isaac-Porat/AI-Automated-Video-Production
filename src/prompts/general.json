@@ -1,0 +1,21 @@
+{
+  "task": "Find, analyze, and extract the most important segments of information from the transcript.",
+  "requirements": [
+    "Each time segment must be at least 25 seconds.",
+    "Output must be a list of dicts, each dict with keys 'desc' and 'segment', where 'segment' is another dict with keys 'startTime' and 'endTime'.",
+    "The 'startTime' and 'endTime' values must be the same float numbers as in the transcripts.",
+    "All strings in the output JSON must be enclosed in double quotes."
+  ],
+  "output of task": {
+    "format": "list",
+    "details": [
+      {
+        "desc": "Description of the segment.",
+        "segment": {
+          "startTime": "Start time of the segment in seconds.",
+          "endTime": "End time of the segment in seconds."
+        }
+      }
+    ]
+  }
+}
