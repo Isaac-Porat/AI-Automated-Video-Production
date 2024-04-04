@@ -26,25 +26,26 @@ def download_video_mp4(video_url: str, mp4_downloads_path: str):
   youtube_object = youtube_object.streams.get_highest_resolution()
   title_of_video = youtube_object.title
 
-  title_of_video = title_of_video.replace(' ', '-').replace(':', '-')
+  title_of_video = title_of_video.replace(':', '')
 
   try:
-    youtube_object.download(output_path=mp4_downloads_path)
+    youtube_object.download(output_path=f"{mp4_downloads_path}")
   except:
     print(f"Error occured downloading mp4 video")
   print("Download is completed successfully")
-  return f"{mp4_downloads_path}/{title_of_video}.mp4"
+  # return f"{mp4_downloads_path}/{title_of_video}.mp4"
+  return title_of_video
 
 def edit_video(input_video_download: str, video_cuts: list[dict], edited_output_path: str) -> bool:
   video = VideoFileClip(input_video_download)
-  clips = []
   for cut in video_cuts:
+    print(cut)
     segment = cut['segment']
+    print(segment)
     desc = cut['desc']
+    print(desc)
     clip = video.subclip(segment['startTime'], segment['endTime'])
-    clips.append(clip)
-  final_clip = concatenate_videoclips(clips)
-  final_clip.write_videofile(f'{edited_output_path}/edited_video.mp4', threads=4, fps=24, codec='libx264', preset='slow', ffmpeg_params=["-crf",'24'])
+    clip.write_videofile(f'{edited_output_path}/{desc[0:10]}.mp4', threads=4, fps=24, codec='libx264', preset='slow', ffmpeg_params=["-crf",'24'])
   video.close()
 
 # Example:
