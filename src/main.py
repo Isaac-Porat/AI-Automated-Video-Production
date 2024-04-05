@@ -1,45 +1,39 @@
-#!/usr/bin/env python3
+# #!/usr/bin/env python3
 
 import json
-from functions.youtubeFunctions import get_video_transcript_to_file, download_video_mp4, edit_video
-from functions.chatModel import init_openai, init_model, load_index, query
+from youtubeFunctions import Object
+from chatModel import init_openai, init_model, load_index, query
 
 with open('prompts/general.json', 'r') as file:
   prompt_data = json.load(file)
 
 if __name__ == "__main__":
+  yt = Object('https://www.youtube.com/watch?v=Frsonaaz858')
 
-  transcripts_download_path = '/Users/zakporat/Desktop/ChatGPT-YT-Transcript/src/downloads/transcripts'
-  mp4_downloads_path = '/Users/zakporat/Desktop/ChatGPT-YT-Transcript/src/downloads/mp4'
-  output_path = '/Users/zakporat/Desktop/ChatGPT-YT-Transcript/src/downloads/edited-outputs'
+  # Downloads transcript.txt and returns transcript file path
+  transcript: str = yt.download_transcript()
 
-  video_url = 'https://www.youtube.com/watch?v=Frsonaaz858'
+  # Downloads mp4 of video and returns download path
+  mp4: str = yt.download_mp4()
 
-  file_path_transcript = get_video_transcript_to_file(video_url, transcripts_download_path)
 
-  file_path_mp4 = download_video_mp4(video_url, mp4_downloads_path)
+#   gpt4, gpt3 = init_openai()
 
-  print(file_path_transcript)
+#   file_path, gpt4, gpt3 = init_model(file_path_transcript, gpt4, gpt3)
 
-  print(file_path_mp4)
+#   index = load_index(file_path, gpt4)
 
-  gpt4, gpt3 = init_openai()
+#   summary_of_data = "Transcription of YouTube video."
 
-  file_path, gpt4, gpt3 = init_model(file_path_transcript, gpt4, gpt3)
+#   prompt = str(prompt_data)
 
-  index = load_index(file_path, gpt4)
+#   response = query(index, prompt, summary_of_data, gpt4)
 
-  summary_of_data = "Transcription of YouTube video."
+#   print(response)
 
-  prompt = str(prompt_data)
+#   response_json = json.loads(response)
 
-  response = query(index, prompt, summary_of_data, gpt4)
-
-  print(response)
-
-  response_json = json.loads(response)
-
-  edit_video(f"{mp4_downloads_path}/{file_path_mp4}.mp4", response_json, output_path)
+#   edit_video(f"{mp4_downloads_path}/{file_path_mp4}.mp4", response_json, output_path)
 
 
 
