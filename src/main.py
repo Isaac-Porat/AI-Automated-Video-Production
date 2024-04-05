@@ -43,27 +43,3 @@ if __name__ == "__main__":
 
 
 
-#   [
-#     {
-#         "desc": "The speaker is preparing for a 20 km run and expresses concerns about readiness due to a busy schedule. Interaction with someone wearing a Verona Marathon t-shirt.",
-#         "segment": {
-#             "startTime": 0.56,
-#             "endTime": 40.84
-#         }
-#     },
-#     {
-#         "desc": "Discussion about plans to travel to Shanghai, including lunch arrangements and negotiations for better pricing on products and shipping. Encounter with a Chinese family at 'the dungeon'.",
-#         "segment": {
-#             "startTime": 85.52,
-#             "endTime": 107.84
-#         }
-#     },
-#     {
-#         "desc": "The speaker is in Shanghai, conducting product research and mentioning various products like flip flops and orthopedic sandals. Talks about 'drop ship Central' and potential opportunities to work together.",
-#         "segment": {
-#             "startTime": 249.64,
-#             "endTime": 285.8
-#         }
-#     }
-#   ]
-
