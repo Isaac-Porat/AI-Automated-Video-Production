@@ -2,13 +2,18 @@
 
 import json
 from youtubeFunctions import Object
-from chatModel import init_openai, init_model, load_index, query
+from chatModel import Model
+from llama_index.llms.openai import OpenAI
 
 with open('prompts/general.json', 'r') as file:
   prompt_data = json.load(file)
 
+gpt4 = OpenAI(temperature=0.9, model='gpt-4')
+gpt3 = OpenAI(temperature=0.9, model='gpt-3.5-turbo-0125')
+
 if __name__ == "__main__":
   yt = Object('https://www.youtube.com/watch?v=Frsonaaz858')
+  md = Model(gpt4)
 
   # Downloads transcript.txt and returns transcript file path
   transcript: str = yt.download_transcript()
@@ -16,24 +21,27 @@ if __name__ == "__main__":
   # Downloads mp4 of video and returns download path
   mp4: str = yt.download_mp4()
 
+  # Load index of LLM with transcript
+  index = md.load_index(transcript)
 
-#   gpt4, gpt3 = init_openai()
+  # Query the LLM with prompt and summary of transcript
+  summary_of_data = 'Transcription of YouTube video'
 
-#   file_path, gpt4, gpt3 = init_model(file_path_transcript, gpt4, gpt3)
+  prompt = str(prompt_data)
 
-#   index = load_index(file_path, gpt4)
+  response = md.query(index, prompt, summary_of_data)
 
-#   summary_of_data = "Transcription of YouTube video."
+  print(response)
 
-#   prompt = str(prompt_data)
+  # Edit the video with segment cuts from LLM
+  response_json = json.loads(response)
 
-#   response = query(index, prompt, summary_of_data, gpt4)
+  yt.edit_video(response_json)
 
-#   print(response)
 
-#   response_json = json.loads(response)
 
-#   edit_video(f"{mp4_downloads_path}/{file_path_mp4}.mp4", response_json, output_path)
+
+
 
 
 

@@ -15,6 +15,8 @@ class Object:
     self._root_download_path: str = 'output'
     self._sub_root_video_path: str = self._create_sub_root_folder()
     self._edited_videos_output_path: str = f'{self._sub_root_video_path}/edited_videos'
+    if not os.path.exists(self._edited_videos_output_path):
+        os.makedirs(self._edited_videos_output_path, exist_ok=True)
 
 
   """
@@ -60,7 +62,7 @@ class Object:
   """
   Download the video in mp4 format.
   """
-  def download_mp4(self) -> str:
+  def download_mp4(self) -> None:
     download_path: str = f"{self._sub_root_video_path}"
 
     try:
@@ -72,7 +74,14 @@ class Object:
     except Exception as e:
       print('Error accessing pytube: %s' % e)
 
-    return download_path
+  """
+  Helper function to return mp4 download path
+  """
+  def return_video_mp4_path(self):
+    for root, dirs, files in os.walk(self._sub_root_video_path):
+      for file in files:
+        if file.endswith(".mp4"):
+          return os.path.join(root, file)
 
   """
   Edit the video based on the provided video cuts.
@@ -80,7 +89,7 @@ class Object:
   :return: A list of paths to the edited video segments.
   """
   def edit_video(self, video_cuts: list[dict]) -> list[str]:
-    video_download_path: str = self.download_mp4
+    video_download_path: str = self.return_video_mp4_path()
 
     video_paths: list[str] = []
 
@@ -94,7 +103,7 @@ class Object:
 
         clip: VideoFileClip = video.subclip(segment['startTime'], segment['endTime'])
 
-        video_out_path: str = f'{self.edited_videos_output_path}/{i}_video.mp4'
+        video_out_path: str = f'{self._edited_videos_output_path}/{i}_video.mp4'
 
         clip.write_videofile(video_out_path, threads=4, fps=24, codec='libx264', preset='slow', ffmpeg_params=["-crf",'24'])
 
