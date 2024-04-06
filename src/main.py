@@ -1,8 +1,8 @@
 # #!/usr/bin/env python3
 
 import json
-from youtubeFunctions import Object
-from chatModel import Model
+from youtube_object import Object
+from chat_model import Model
 from llama_index.llms.openai import OpenAI
 
 with open('prompts/general.json', 'r') as file:
